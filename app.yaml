@@ -1,0 +1,3 @@
+hooks:
+  build:
+    - ./go_builder_wrapper.sh
