@@ -1,66 +1,22 @@
-import { ComponentClass } from 'react';
-import { PanelProps, PanelOptionsProps } from './panel';
-
-export interface PluginExports {
-  Datasource?: any;
-  QueryCtrl?: any;
-  ConfigCtrl?: any;
-  AnnotationsQueryCtrl?: any;
-  VariableQueryEditor?: any;
-  ExploreQueryField?: any;
-  ExploreStartPage?: any;
-
-  // Panel plugin
-  PanelCtrl?;
-  PanelComponent?: ComponentClass<PanelProps>;
-  PanelOptionsComponent: ComponentClass<PanelOptionsProps>;
-}
+import { AngularPanelPlugin, ReactPanelPlugin, PluginMetaInfo } from '@grafana/ui/src/types';
 
 export interface PanelPlugin {
   id: string;
   name: string;
-  meta: any;
-  hideFromList: boolean;
+  hideFromList?: boolean;
   module: string;
   baseUrl: string;
-  info: any;
-  sort: number;
-  exports?: PluginExports;
-}
-
-export interface PluginMeta {
-  id: string;
-  name: string;
   info: PluginMetaInfo;
-  includes: PluginInclude[];
-
-  // Datasource-specific
-  metrics?: boolean;
-  logs?: boolean;
-  explore?: boolean;
-  annotations?: boolean;
+  sort: number;
+  angularPlugin: AngularPanelPlugin | null;
+  reactPlugin: ReactPanelPlugin | null;
+  hasBeenImported?: boolean;
+  dataFormats: PanelDataFormat[];
 }
 
-export interface PluginInclude {
-  type: string;
-  name: string;
-  path: string;
-}
-
-export interface PluginMetaInfo {
-  author: {
-    name: string;
-    url: string;
-  };
-  description: string;
-  links: string[];
-  logos: {
-    large: string;
-    small: string;
-  };
-  screenshots: string;
-  updated: string;
-  version: string;
+export enum PanelDataFormat {
+  Table = 'table',
+  TimeSeries = 'time_series',
 }
 
 export interface Plugin {
@@ -74,6 +30,7 @@ export interface Plugin {
   pinned: boolean;
   state: string;
   type: string;
+  module: any;
 }
 
 export interface PluginDashboard {
@@ -98,6 +55,7 @@ export interface PluginsState {
   layoutMode: string;
   hasFetched: boolean;
   dashboards: PluginDashboard[];
+  isLoadingPluginDashboards: boolean;
 }
 
 export interface VariableQueryProps {
