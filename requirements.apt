@@ -1,3 +1,4 @@
 make
 bzip2
 build-essential
+libfontconfig1
